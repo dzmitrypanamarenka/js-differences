@@ -11,7 +11,8 @@ program
 
 program
   .action((firstConfig, secondConfig) => {
-    const result = genDiff(firstConfig, secondConfig);
+    const path = '/home/hey/Project/__tests__/fixtures/';
+    const result = genDiff(`${path}${firstConfig}`, `${path}${secondConfig}`);
     console.log(result);
   });
 

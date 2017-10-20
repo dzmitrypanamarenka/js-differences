@@ -1,49 +1,42 @@
 import fs from 'fs';
 import _ from 'lodash';
-import parse from './parse/json';
-import render from './render/json';
-
-export const path = '/home/hey/Project/src/templates/';
+import { parse, render } from './parse/json';
 
 const genDiff = (prop1, prop2) => {
-  const before = parse(fs.readFileSync(`${path}${prop1}`));
-  const after = parse(fs.readFileSync(`${path}${prop2}`));
+  const before = parse(fs.readFileSync(prop1));
+  const after = parse(fs.readFileSync(prop2));
   const ast = _.union([], Object.keys(after), Object.keys(before))
-    .reduce((acc, el) => {
+    .map((el) => {
       const oldVal = before[el];
       const newVal = after[el];
       if (_.isEqual(oldVal, newVal)) {
-        acc.push({
-          prefix: ' ',
+        return {
+          type: 'same',
           el,
           value: newVal,
-        });
+        };
       } else if (oldVal && !newVal) {
-        acc.push({
-          prefix: '-',
+        return {
+          type: 'removed',
           el,
           value: oldVal || newVal,
-        });
+        };
       } else if (!oldVal && newVal) {
-        acc.push({
-          prefix: '+',
+        return {
+          type: 'added',
           el,
           value: oldVal || newVal,
-        });
+        };
       } else if (newVal !== oldVal) {
-        acc.push({
-          prefix: '-',
+        return {
+          type: 'edited',
           el,
-          value: oldVal,
-        });
-        acc.push({
-          prefix: '+',
-          el,
-          value: newVal,
-        });
+          oldValue: oldVal,
+          newValue: newVal,
+        };
       }
-      return acc;
-    }, []);
+      return false;
+    });
   return render(_.sortBy(ast, ['el']));
 };
 
