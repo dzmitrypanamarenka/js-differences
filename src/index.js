@@ -1,43 +1,47 @@
 import fs from 'fs';
 import _ from 'lodash';
-import { parse, render } from './parse/json';
+import path from 'path';
+import render from './compare/render';
+import parsers from './compare/parse';
 
 const genDiff = (prop1, prop2) => {
+  const extension = path.extname(prop1).substring(1);
+  const parse = parsers[extension];
   const before = parse(fs.readFileSync(prop1));
   const after = parse(fs.readFileSync(prop2));
   const ast = _.union([], Object.keys(after), Object.keys(before))
-    .map((el) => {
-      const oldVal = before[el];
-      const newVal = after[el];
+    .map((key) => {
+      const oldVal = before[key];
+      const newVal = after[key];
       if (_.isEqual(oldVal, newVal)) {
         return {
           type: 'same',
-          el,
+          key,
           value: newVal,
         };
       } else if (oldVal && !newVal) {
         return {
           type: 'removed',
-          el,
+          key,
           value: oldVal || newVal,
         };
       } else if (!oldVal && newVal) {
         return {
           type: 'added',
-          el,
+          key,
           value: oldVal || newVal,
         };
       } else if (newVal !== oldVal) {
         return {
           type: 'edited',
-          el,
+          key,
           oldValue: oldVal,
           newValue: newVal,
         };
       }
       return false;
     });
-  return render(_.sortBy(ast, ['el']));
+  return render(_.sortBy(ast, ['key']));
 };
 
 export default genDiff;

@@ -1,22 +1,21 @@
 import _ from 'lodash';
 
-const parse = json => JSON.parse(json);
 const props = [
   {
     check: el => el.type === 'edited',
-    getStr: el => `+  ${el.el}: ${el.newValue}\n-  ${el.el}: ${el.oldValue}\n`,
+    getStr: el => `+  ${el.key}: ${el.newValue}\n-  ${el.key}: ${el.oldValue}\n`,
   },
   {
     check: el => el.type === 'same',
-    getStr: el => `   ${el.el}: ${el.value}\n`,
+    getStr: el => `   ${el.key}: ${el.value}\n`,
   },
   {
     check: el => el.type === 'removed',
-    getStr: el => `-  ${el.el}: ${el.value}\n`,
+    getStr: el => `-  ${el.key}: ${el.value}\n`,
   },
   {
     check: el => el.type === 'added',
-    getStr: el => `+  ${el.el}: ${el.value}\n`,
+    getStr: el => `+  ${el.key}: ${el.value}\n`,
   },
 ];
 
@@ -33,4 +32,4 @@ const render = (ast) => {
   return `\n{\n${str}}`;
 };
 
-export { parse, render };
+export default render;
