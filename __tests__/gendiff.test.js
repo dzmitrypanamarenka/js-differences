@@ -25,3 +25,16 @@ test('compare yml', () => {
 +  verbose: true
 }`);
 });
+
+test('compare ini', () => {
+  expect(genDiff(`${templatesDir}before.ini`, `${templatesDir}after.ini`))
+    .toBe(`
+{
+   host: hexlet.io
+-  proxy: 123.234.53.22
++  timeout: 20
+-  timeout: 50
++  verbose: true
+}`);
+});
+

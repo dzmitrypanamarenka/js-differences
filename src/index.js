@@ -7,8 +7,8 @@ import parsers from './compare/parse';
 const genDiff = (prop1, prop2) => {
   const extension = path.extname(prop1).substring(1);
   const parse = parsers[extension];
-  const before = parse(fs.readFileSync(prop1));
-  const after = parse(fs.readFileSync(prop2));
+  const before = parse(fs.readFileSync(prop1, 'utf-8'));
+  const after = parse(fs.readFileSync(prop2, 'utf-8'));
   const ast = _.union([], Object.keys(after), Object.keys(before))
     .map((key) => {
       const oldVal = before[key];
