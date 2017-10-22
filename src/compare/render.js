@@ -3,19 +3,19 @@ import _ from 'lodash';
 const props = [
   {
     check: el => el.type === 'edited',
-    getStr: el => `+  ${el.key}: ${el.newValue}\n-  ${el.key}: ${el.oldValue}\n`,
+    getStr: el => `+  ${el.key}: ${el.newVal}\n-  ${el.key}: ${el.oldVal}\n`,
   },
   {
     check: el => el.type === 'same',
-    getStr: el => `   ${el.key}: ${el.value}\n`,
+    getStr: el => `   ${el.key}: ${el.newVal}\n`,
   },
   {
     check: el => el.type === 'removed',
-    getStr: el => `-  ${el.key}: ${el.value}\n`,
+    getStr: el => `-  ${el.key}: ${el.oldVal}\n`,
   },
   {
     check: el => el.type === 'added',
-    getStr: el => `+  ${el.key}: ${el.value}\n`,
+    getStr: el => `+  ${el.key}: ${el.newVal}\n`,
   },
 ];
 
