@@ -3,6 +3,6 @@ import iniParse from 'ini';
 
 export default {
   yml: yaml.safeLoad,
-  json: file => JSON.parse(file),
-  ini: file => iniParse.parse(file),
+  json: JSON.parse,
+  ini: iniParse.parse,
 };
