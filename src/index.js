@@ -34,7 +34,7 @@ const props = [
 
 const getProps = (item1, item2) => _.find(props, ({ check }) => check(item1, item2));
 
-const genDiff = (prop1, prop2) => {
+const genDiff = (prop1, prop2, format = 'tree') => {
   const extension = path.extname(prop1).substring(1);
   const parse = parsers[extension];
   const before = parse(fs.readFileSync(prop1, 'utf-8'));
@@ -47,7 +47,8 @@ const genDiff = (prop1, prop2) => {
       return { type, key, value: getValue(firstVal, secVal, getAst) };
     });
   const result = getAst(before, after);
-  return render(_.sortBy(result, ['key']));
+  const renderBy = render[format];
+  return renderBy(_.sortBy(result, ['key']));
 };
 
 export default genDiff;

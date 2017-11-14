@@ -5,6 +5,9 @@
     "setting3": true,
     "setting6": {
       "key": "value"
+    },
+    "setting7": {
+      "key": "value"
     }
   },
   "group1": {

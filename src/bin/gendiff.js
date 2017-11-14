@@ -4,15 +4,15 @@ import program from 'commander';
 import genDiff from '../';
 
 program
-  .version('0.1.0')
+  .version('2.0.0')
   .arguments('<firstConfig> <secondConfig>')
   .description('Compares two configuration files and shows a difference.')
-  .option('-f, --foo', 'enable some foo');
+  .option('-f, --format [type]', 'choose output format');
 
 program
   .action((firstConfig, secondConfig) => {
-    const path = '/home/hey/Project/__tests__/fixtures/';
-    const result = genDiff(`${path}${firstConfig}`, `${path}${secondConfig}`);
+    const { format } = program;
+    const result = genDiff(`${firstConfig}`, `${secondConfig}`, format);
     console.log(result);
   });
 
