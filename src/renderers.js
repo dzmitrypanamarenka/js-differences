@@ -82,7 +82,7 @@ const jsonRenderer = (ast) => {
     return getJsonStr(acc, el.type, el.key, el.value, iter);
   }, {});
   const result = JSON.stringify(iter(ast), '', 1);
-  const outputFile = '/home/hey/123/project-lvl2-s129/output.json';
+  const outputFile = './output.json';
 
   fs.writeFileSync(outputFile, result);
   return result;
